@@ -1,0 +1,49 @@
+базовий приклад коду для створення простого застосунку пошуку зображень на React, який використовує API для отримання зображень за ключовим словом:
+
+```jsx
+import React, { useState } from 'react';
+
+const ImageSearchApp = () => {
+  const [keyword, setKeyword] = useState('');
+  const [images, setImages] = useState([]);
+
+  const searchImages = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`YOUR_API_ENDPOINT?query=${keyword}`);
+      const data = await response.json();
+      setImages(data.results);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={searchImages}>
+        <input
+          type="text"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="Введіть ключове слово"
+        />
+        <button type="submit">Пошук</button>
+      </form>
+      <div>
+        {images.map((image) => (
+          <img key={image.id} src={image.urls.small} alt={image.alt_description} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ImageSearchApp;
+```
+
+Переконайтеся, що ви замінили `YOUR_API_ENDPOINT` на реальний кінцевий пункт API, який ви використовуєте для пошуку зображень. 
+Також, вам потрібно буде обробити відповідь API відповідно до формату, який він повертає. Цей код припускає, що API повертає 
+об'єкт з масивом `results`, де кожен елемент масиву має властивості `id`, `urls` та `alt_description`. Зверніть увагу, що для 
+реального застосунку вам також знадобиться обробка помилок та ключ API, якщо він потрібен для вашого API-провайдера.
+
+Py_iDo0pAQqvEYoMBPZrJ7mc9_8W17Y3JqrImjifwlY   -  ключ доступу для HTTP-запитів Unsplash
